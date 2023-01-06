@@ -1,34 +1,34 @@
 cmake_minimum_required(VERSION 3.25)
 
+# set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+# set(BUILD_SHARED_LIBS OFF)
+# set(CMAKE_EXE_LINKER_FLAGS "-static")
+
 set(SOURCES src/main.c)
 
 project(larithm VERSION 1.0)
+
 add_executable(larithm ${SOURCES})
 
 find_package(OpenGL REQUIRED)
 
-include(external_libs.txt)
-target_link_directories(
-    larithm PUBLIC
-    ${LIB_GLEW_PATH}
+set(GLEW_USE_STATIC_LIBS TRUE)
+find_package(GLEW REQUIRED)
+# find_library(GLEW_LIB REQUIRED
+#     NAMES glew32s
+# )
+
+find_library(GLFW_LIB REQUIRED
+    NAMES glfw3
 )
+
+message("Find: " ${GLEW_LIB})
+
 
 target_link_libraries(
     larithm PUBLIC
+    GLEW::glew_s
+    ${GLFW_LIB}
     OpenGL::GL
-    glfw3
-    glew32
 )
-
-# include_directories(src/extern/nuklear)
-# add_subdirectory(src)
-# #include_directories(src/extern/glew-2.2.0/include)
-# find_package(OpenGL REQUIRED)
-# target_link_libraries(
-#     larithm PUBLIC
-#     OpenGL::GL
-# )
-#
-# include_directories(src/extern/nuklear)
-# add_subdirectory(src)
-# #include_directories(src/extern/glew-2.2.0/include)
+add_subdirectory(src)
