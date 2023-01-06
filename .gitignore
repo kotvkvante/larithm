@@ -1,3 +1,8 @@
+# 
+build
+prepare.sh
+src/extern
+external_libs.txt
 # Prerequisites
 *.d
 
