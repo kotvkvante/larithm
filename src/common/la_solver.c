@@ -9,7 +9,10 @@
 #include "la_sequence.h"
 #include "la_actions.h"
 
-typedef la_action_ret_t (*la_action_f)(la_map_t*, la_map_state_t*);
+// common/objects
+#include "character.h"
+
+typedef la_action_ret_t (*la_action_f)(la_map_t*);
 
 static la_action_f resolver[] =
 {
@@ -22,14 +25,14 @@ static la_action_f resolver[] =
 
 int la_solve(la_map_t* map, la_sequence_t* sqnc)
 {
-    la_action_ret_t ret = 0;
-    la_map_state_t* map_state = map_state_init(map);
+    la_action_ret_t res = 0;
+    // la_map_state_t* map_state = map_state_init(map);
     for(int i = 0; i < sqnc->last; i++)
     {
-        printf("%d\n", sqnc->elements[i]);
+        // printf("%d\n", sqnc->elements[i]);
         la_action_f action = resolver[sqnc->elements[i]];
-        ret = action(map, map_state);
-        if(ret == LA_ACTION_FAIL)
+        res = action(map);
+        if(res == LA_ACTION_FAIL)
         {
             printf("Action fail!");
         }

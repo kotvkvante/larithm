@@ -4,7 +4,9 @@
 
 // common
 #include "la_map.h"
+#include "la_map_template.h"
 #include "la_map_state.h"
+#include "la_map_collider.h"
 #include "la_sequence.h"
 #include "la_solver.h"
 
@@ -18,23 +20,37 @@
 int main(int argc, char const *argv[])
 {
 
-    la_sequence_t* sqnc2 = la_sqnc_init();
-    la_sqnc_from_file(sqnc2, "solver1.sqnc");
-    sqnc_print(sqnc2);
+    la_sequence_t* sqnc = la_sqnc_init();
+    // la_sqnc_from_file(sqnc, "solver1.sqnc");
+    int arr[] = {0, 0, 3, 1, 1};
+    la_sqnc_from_array(sqnc, 5, arr);
+    sqnc_print(sqnc);
 
-    la_map_t* map = map_init_from_file("map.json");
-    printf("Hi\n");
+    la_map_template_t* tmpl = map_tmpl_init_from_file("map.json");
+    la_map_t* map = map_init_from_template(tmpl);
+    map_print(map);
+    map_cldr_print(map);
 
-    la_obj_base_t* base = obj_base_new();
-    obj_base_init_xy(base, 0, 0);
+    la_solve(map, sqnc);
+    map_print(map);
+    // la_map_t* map = map_init_from_file("map.json");
+    // map_print(map);
+    // map_cldr_init(map);
+    // map_cldr_fill_default(map);
+    // map_cldr_print(map);
 
-    la_map_state_t* map_state = map_state_init_with(map, base);
-    la_obj_wall_t* wall = obj_wall_new();
-    obj_wall_init(wall, 2, 2, 120);
-    map_state_add_wall(map_state, wall);
-    map_state_print(map_state);
+    // printf("Hi\n");
 
-    la_solve(map, sqnc2);
+    // la_obj_base_t* base = obj_base_new();
+    // obj_base_init_xy(base, 0, 0);
+    //
+    // la_map_state_t* map_state = map_state_init_with(map, base);
+    // la_obj_wall_t* wall = obj_wall_new();
+    // obj_wall_init(wall, 2, 2, 120);
+    // map_state_add_wall(map_state, wall);
+    // map_state_print(map_state);
+    //
+    // la_solve(map, sqnc2);
 
 
     return 0;
@@ -47,7 +63,6 @@ int main(int argc, char const *argv[])
     // la_map_t* map;
     // map_print(map);
     // map_close(map);
-    return 0;
     // CURL* curl;
     // CURLcode response;
     // curl_global_init(CURL_GLOBAL_ALL);

@@ -5,8 +5,12 @@ set(LA_COMMON_SOURCES
     la_solver.c
     la_solver.h
 
-    la_map.c
-    la_map.h
+    map/la_map.c
+    map/la_map.h
+    map/la_map_template.c
+    map/la_map_template.h
+    map/la_map_collider.c
+    map/la_map_collider.h
 
     la_sequence.c
     la_sequence.h
@@ -35,4 +39,5 @@ target_include_directories(
     liblarithm PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/"
     "${CMAKE_SOURCE_DIR}/src/common/objects"
+    "${CMAKE_SOURCE_DIR}/src/common/map"
 )

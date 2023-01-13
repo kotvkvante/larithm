@@ -9,12 +9,22 @@ la_obj_base_t* obj_base_new()
     return malloc(sizeof(la_obj_base_t));
 }
 
-void obj_base_init_xy(la_obj_base_t* base, int x, int y)
+void obj_base_init_xyt(la_obj_base_t* base, int x, int y, int type)
 {
-    base->type = LA_OBJ_TYPE_BASE;
+    base->type = type;
     base->x = x;
     base->y = y;
 }
+
+la_obj_base_t* obj_base_init(int x, int y)
+{
+    la_obj_base_t* base = obj_base_new();
+    obj_base_init_xyt(base, x, y, LA_OBJ_TYPE_BASE);
+    base->texture = '_';
+    return base;
+}
+
+
 
 // void la_base_set_texture()
 // {

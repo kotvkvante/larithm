@@ -106,11 +106,12 @@ void la_sqnc_from_file(la_sequence_t* sqnc, const char* filename)
 
 void sqnc_print(la_sequence_t* sqnc)
 {
+    printf(">> Sequence: \n");
     char buffer[256];
     int n = 0;
 
-    n += sprintf(buffer+n, "[%d,", sqnc->elements[0]);
-    for(int i = 1; i < sqnc->last-1; i++)
+    n += sprintf(buffer+n, "[");
+    for(int i = 0; i < sqnc->last; i++)
     {
         n += sprintf(buffer+n, "%d,", sqnc->elements[i]);
         if(n >= 256)
@@ -118,7 +119,7 @@ void sqnc_print(la_sequence_t* sqnc)
             printf("Buffer is full\n");
         }
     }
-    n += sprintf(buffer+n, "%d]", sqnc->elements[sqnc->last-1]);
+    n += sprintf(buffer+n-1, "]\n");
     fwrite(buffer, sizeof(char), n, stdout);
 }
 

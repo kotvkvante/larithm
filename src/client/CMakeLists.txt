@@ -2,6 +2,7 @@ target_include_directories(
     laclient PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/"
     "${CMAKE_SOURCE_DIR}/src/common/objects"
+    # "${CMAKE_SOURCE_DIR}/src/common/map"
 )
 # message("${CMAKE_SOURCE_DIR}/src/common/")
 
