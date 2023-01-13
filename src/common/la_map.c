@@ -70,8 +70,8 @@ la_map_t* map_init_from_file(const char* filename)
     char* str = json_fread(filename);
     if(str == NULL)
     {
-        printf("Error while reading file: %s", filename);
-        return NULL;
+        printf("Error while reading file: %s\n", filename);
+        exit(-1);
     }
     return map_init_from_json_str((const char*)str);
 }

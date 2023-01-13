@@ -43,19 +43,6 @@ la_map_t* cl_get_map()
     curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_write);
 
-    // char ar[2048];
-    // curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ar);
-
-    // struct curl_slist *hs = NULL;
-    // hs = curl_slist_append(hs, "Content-Type: application/json");
-    // curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hs);
-
-    // curl_easy_setopt(curl, CURLOPT_POST, 1L);
-    // static const char *postthis = "this is post message, please send this stuff";
-    // static const char *postthis = "{\"type\":\"map\"}";
-    // curl_easy_setopt(curl, CURLOPT_POSTFIELDS, buffer);
-    // curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(buffer));
-
     response = curl_easy_perform(curl);
 
     if(response != CURLE_OK)

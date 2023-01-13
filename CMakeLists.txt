@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.25)
 option(USE_STATIC_LIBS "Staticly linked libs" ON)
 option(USE_LIB_FROZEN "Frozen lib for parsing JSON" ON)
 
+# add_compile_options(-Wall -Wextra -pedantic -Werror -Wno-unused-variable)
+
 if(USE_STATIC_LIBS)
     set(GLEW_USE_STATIC_LIBS TRUE)
     set(GLEW_LIB GLEW::glew_s)
@@ -17,6 +19,7 @@ project(larithm VERSION 1.0)
 add_executable(larithm ${SOURCES})
 add_executable(laserver)
 add_executable(laclient)
+
 add_library(liblarithm STATIC)
 
 

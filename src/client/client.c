@@ -4,16 +4,49 @@
 
 // common
 #include "la_map.h"
+#include "la_map_state.h"
+#include "la_sequence.h"
+#include "la_solver.h"
+
+// common/objects
+#include "base.h"
+#include "wall.h"
 
 // client
-#include "interaction.h"
-
+// #include "interaction.h"
 
 int main(int argc, char const *argv[])
 {
-    la_map_t* map;
-    map = cl_get_map();
-    map_print(map);
+
+    la_sequence_t* sqnc2 = la_sqnc_init();
+    la_sqnc_from_file(sqnc2, "solver1.sqnc");
+    sqnc_print(sqnc2);
+
+    la_map_t* map = map_init_from_file("map.json");
+    printf("Hi\n");
+
+    la_obj_base_t* base = obj_base_new();
+    obj_base_init_xy(base, 0, 0);
+
+    la_map_state_t* map_state = map_state_init_with(map, base);
+    la_obj_wall_t* wall = obj_wall_new();
+    obj_wall_init(wall, 2, 2, 120);
+    map_state_add_wall(map_state, wall);
+    map_state_print(map_state);
+
+    la_solve(map, sqnc2);
+
+
+    return 0;
+    // while(1)
+    // {
+    //
+    // };
+
+
+    // la_map_t* map;
+    // map_print(map);
+    // map_close(map);
     return 0;
     // CURL* curl;
     // CURLcode response;
