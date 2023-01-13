@@ -22,8 +22,8 @@ int main(int argc, char const *argv[])
 
     la_sequence_t* sqnc = la_sqnc_init();
     // la_sqnc_from_file(sqnc, "solver1.sqnc");
-    int arr[] = {0, 0, 3, 1, 1};
-    la_sqnc_from_array(sqnc, 5, arr);
+    int arr[] = {0, 0, 3, 1, 0, 4};
+    la_sqnc_from_array(sqnc, 6, arr);
     sqnc_print(sqnc);
 
     la_map_template_t* tmpl = map_tmpl_init_from_file("map.json");

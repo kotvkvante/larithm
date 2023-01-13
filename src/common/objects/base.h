@@ -1,9 +1,14 @@
 #ifndef LA_BASE_H
 #define LA_BASE_H
 
+#include <stdbool.h>
+
 #define LA_OBJ_TYPE_BASE 0
 #define LA_OBJ_TYPE_CHRT 1
 #define LA_OBJ_TYPE_WALL 2
+#define LA_OBJ_TYPE_LEVR 3
+#define LA_OBJ_TYPE_DOOR 4
+
 
 typedef char la_texture_t;
 

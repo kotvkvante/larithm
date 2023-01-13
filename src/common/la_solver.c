@@ -34,7 +34,7 @@ int la_solve(la_map_t* map, la_sequence_t* sqnc)
         res = action(map);
         if(res == LA_ACTION_FAIL)
         {
-            printf("Action fail!");
+            printf("Action fail!\n");
         }
     }
 }

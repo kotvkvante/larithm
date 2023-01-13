@@ -21,12 +21,13 @@ set(LA_COMMON_SOURCES
 
     objects/wall.c
     objects/wall.h
-
     objects/base.c
     objects/base.h
-
     objects/character.c
     objects/character.h
+    objects/door.c
+    objects/door.h
+
 )
 
 # message(">>" ${LA_COMMON_SOURCES})

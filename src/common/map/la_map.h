@@ -1,6 +1,8 @@
 #ifndef LA_MAP_H
 #define LA_MAP_H
 
+#include "point.h"
+
 #define MAP_SUBMAP_ELEMENT(map, submap, x, y) \
     (map)->submap[(map)->size_x * (y) + x]
 #define MAP_ELEMENT(map, x, y) (map)->elements[(map)->size_x * (y) + (x)]
@@ -10,11 +12,6 @@ typedef struct la_map_template_t la_map_template_t;
 typedef struct la_obj_character_t la_obj_character_t;
 typedef struct la_obj_base_t la_obj_base_t;
 typedef char la_map_collider_t;
-
-typedef struct la_point_t
-{
-    int x, y;
-} la_point_t;
 
 typedef struct la_map_t
 {

@@ -39,6 +39,7 @@ la_action_ret_t action_rigth(la_map_t* map)
 
 la_action_ret_t action_exec(la_map_t* map)
 {
+    // if(obj->type)
     // int res = chrt_move_dxdy(map->chrt, map, 0, 1);
     // if(res == false) return LA_ACTION_FAIL;
     return LA_ACTION_OK;

@@ -3,7 +3,6 @@
 
 // objects
 #include "wall.h"
-#include "la_map_collider.h"
 
 la_obj_wall_t* obj_wall_new()
 {

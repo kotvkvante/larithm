@@ -16,17 +16,22 @@
 #include "base.h"
 #include "wall.h"
 #include "character.h"
+#include "door.h"
 
 static la_obj_base_t* _obj_base_init(int x, int y) { return (la_obj_base_t*)obj_base_init(x, y); }
 static la_obj_base_t* _obj_chrt_init(int x, int y) { return (la_obj_base_t*)obj_chrt_init(x, y); }
 static la_obj_base_t* _obj_wall_init(int x, int y) { return (la_obj_base_t*)obj_wall_init(x, y); }
+static la_obj_base_t* _obj_levr_init(int x, int y) { }
+static la_obj_base_t* _obj_door_init(int x, int y) { return (la_obj_base_t*)obj_door_init(x, y); }
 typedef la_obj_base_t* (*obj_init_f)(int x, int y);
 
 static obj_init_f _map_resolver[] =
 {
     [LA_OBJ_TYPE_BASE] = _obj_base_init,
     [LA_OBJ_TYPE_CHRT] = _obj_chrt_init,
-    [LA_OBJ_TYPE_WALL] = _obj_wall_init
+    [LA_OBJ_TYPE_WALL] = _obj_wall_init,
+    [LA_OBJ_TYPE_LEVR] = NULL,
+    [LA_OBJ_TYPE_DOOR] = _obj_door_init
 };
 
 la_map_t* map_new()
@@ -76,12 +81,19 @@ la_map_t* map_init_from_template(la_map_template_t* tmpl)
             map->objects[i] = obj;
             switch (obj->type)
             {
+                // TODO move this stuff to corresponding obj_init
                 case LA_OBJ_TYPE_WALL:
+                    map_cldr_set(map, x, y);
+                    break;
+                case LA_OBJ_TYPE_DOOR:
+                    obj_door_set((la_obj_door_t*)obj, x, y+1);
+                    obj_door_map_sync((la_obj_door_t*)obj, map);
                     map_cldr_set(map, x, y);
                     break;
                 case LA_OBJ_TYPE_CHRT:
                     map->chrt = (la_obj_character_t*)obj;
                     break;
+
                 default:
                     break;
             }
