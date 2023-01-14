@@ -14,6 +14,7 @@ void obj_base_init_xyt(la_obj_base_t* base, int x, int y, int type)
     base->type = type;
     base->x = x;
     base->y = y;
+    base->obj = NULL;
 }
 
 la_obj_base_t* obj_base_init(int x, int y)

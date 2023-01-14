@@ -27,7 +27,10 @@ set(LA_COMMON_SOURCES
     objects/character.h
     objects/door.c
     objects/door.h
-
+    objects/levr.c
+    objects/levr.h
+    objects/star.c
+    objects/star.h
 )
 
 # message(">>" ${LA_COMMON_SOURCES})

@@ -34,7 +34,18 @@ int la_solve(la_map_t* map, la_sequence_t* sqnc)
         res = action(map);
         if(res == LA_ACTION_FAIL)
         {
-            printf("Action fail!\n");
+            printf("0");
         }
+        printf("1");
+
+    }
+    printf("\n");
+    if(map_is_win(map))
+    {
+        printf("You Win!\n");
+    }
+    else
+    {
+        printf("Score = %d; Try again =(\n", map->score);
     }
 }

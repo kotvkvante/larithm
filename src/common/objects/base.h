@@ -8,6 +8,7 @@
 #define LA_OBJ_TYPE_WALL 2
 #define LA_OBJ_TYPE_LEVR 3
 #define LA_OBJ_TYPE_DOOR 4
+#define LA_OBJ_TYPE_STAR 5
 
 
 typedef char la_texture_t;

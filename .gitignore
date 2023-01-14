@@ -1,5 +1,7 @@
 # 
 build
+debug
+
 prepare.sh
 src/extern
 external_libs.txt

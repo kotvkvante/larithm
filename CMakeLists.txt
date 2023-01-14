@@ -18,7 +18,10 @@ project(larithm VERSION 1.0)
 
 add_executable(larithm ${SOURCES})
 add_executable(laserver)
+
 add_executable(laclient)
+# set_target_properties(laclient PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+
 
 add_library(liblarithm STATIC)
 

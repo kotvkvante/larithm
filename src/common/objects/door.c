@@ -4,9 +4,12 @@
 
 // common/map
 #include "la_map.h"
+#include "la_map_collider.h"
 
 // common/objects
 #include "door.h"
+
+static char _door_textures[] = {'D', 'd'};
 
 la_obj_door_t* obj_door_new()
 {
@@ -22,10 +25,19 @@ la_obj_door_t* obj_door_init(int x, int y)
     return door;
 }
 
-void obj_door_set(la_obj_door_t* door, int x, int y)
+// void obj_door_set(la_obj_door_t* door, int x, int y)
+// {
+//     door->door.x = x;
+//     door->door.y = y;
+// }
+
+
+
+void obj_door_switch(la_obj_door_t* door, la_map_t* map)
 {
-    door->door.x = x;
-    door->door.y = y;
+    door->is_opened = !door->is_opened;
+    door->texture   = _door_textures[door->is_opened];
+    map_cldr_switch(map, door->x, door->y);
 }
 
 void obj_door_close_door(la_obj_door_t* door)
@@ -43,7 +55,13 @@ void obj_door_open_door(la_obj_door_t* door)
 void obj_door_map_sync(la_obj_door_t* door, la_map_t* map)
 {
     if(door->is_opened)
-        MAP_SUBMAP_ELEMENT(map, colliders, door->door.x, door->door.y) = 0;
+    {
+        obj_door_open_door(door);
+        map_cldr_remove(map, door->x, door->y);
+    }
     else
-        MAP_SUBMAP_ELEMENT(map, colliders, door->door.x, door->door.y) = 1;
+    {
+        obj_door_close_door(door);
+        map_cldr_set(map, door->x, door->y);
+    }
 }

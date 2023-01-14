@@ -29,6 +29,11 @@ void map_cldr_init_default(la_map_t* map)
 
 }
 
+void map_cldr_switch(la_map_t* map, int x, int y)
+{
+    MAP_SUBMAP_ELEMENT(map, colliders, x, y) = !(MAP_SUBMAP_ELEMENT(map, colliders, x, y));
+}
+
 void map_cldr_set(la_map_t* map, int x, int y)
 {
     MAP_SUBMAP_ELEMENT(map, colliders, x, y) = 1;

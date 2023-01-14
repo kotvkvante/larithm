@@ -22,17 +22,34 @@ int main(int argc, char const *argv[])
 
     la_sequence_t* sqnc = la_sqnc_init();
     // la_sqnc_from_file(sqnc, "solver1.sqnc");
-    int arr[] = {0, 0, 3, 1, 0, 4};
-    la_sqnc_from_array(sqnc, 6, arr);
+    int arr[] = {0, 3, 4, 1, 3, 3, 1, 1, 2, 2, 2};
+    la_sqnc_from_array(sqnc, sizeof(arr)/sizeof(int), arr);
     sqnc_print(sqnc);
 
     la_map_template_t* tmpl = map_tmpl_init_from_file("map.json");
+    map_tmpl_print(tmpl);
+
     la_map_t* map = map_init_from_template(tmpl);
+
     map_print(map);
+    map_print_obj_count(map);
+
     map_cldr_print(map);
 
     la_solve(map, sqnc);
+
     map_print(map);
+    map_print_obj_count(map);
+    map_cldr_print(map);
+
+
+    // la_sequence_t* sqnc1 = la_sqnc_init();
+    // int arr1[] = {2, 1};
+    // la_sqnc_from_array(sqnc1, sizeof(arr1)/sizeof(int), arr1);
+    // la_solve(map, sqnc1);
+    // map_print(map);
+    // map_print_obj_count(map);
+
     // la_map_t* map = map_init_from_file("map.json");
     // map_print(map);
     // map_cldr_init(map);

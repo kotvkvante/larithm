@@ -17,12 +17,19 @@
 #include "wall.h"
 #include "character.h"
 #include "door.h"
+#include "levr.h"
+#include "star.h"
 
+#define FUNC(name) \
+    static la_obj_base_t* _obj_ ## name ## _init(int x, int y) \
+    { return (la_obj_base_t*)obj_ ## name ## _init(x, y); }
 static la_obj_base_t* _obj_base_init(int x, int y) { return (la_obj_base_t*)obj_base_init(x, y); }
 static la_obj_base_t* _obj_chrt_init(int x, int y) { return (la_obj_base_t*)obj_chrt_init(x, y); }
 static la_obj_base_t* _obj_wall_init(int x, int y) { return (la_obj_base_t*)obj_wall_init(x, y); }
-static la_obj_base_t* _obj_levr_init(int x, int y) { }
+static la_obj_base_t* _obj_levr_init(int x, int y) { return (la_obj_base_t*)obj_levr_init(x, y); }
 static la_obj_base_t* _obj_door_init(int x, int y) { return (la_obj_base_t*)obj_door_init(x, y); }
+FUNC(star)
+
 typedef la_obj_base_t* (*obj_init_f)(int x, int y);
 
 static obj_init_f _map_resolver[] =
@@ -30,8 +37,9 @@ static obj_init_f _map_resolver[] =
     [LA_OBJ_TYPE_BASE] = _obj_base_init,
     [LA_OBJ_TYPE_CHRT] = _obj_chrt_init,
     [LA_OBJ_TYPE_WALL] = _obj_wall_init,
-    [LA_OBJ_TYPE_LEVR] = NULL,
-    [LA_OBJ_TYPE_DOOR] = _obj_door_init
+    [LA_OBJ_TYPE_LEVR] = _obj_levr_init,
+    [LA_OBJ_TYPE_DOOR] = _obj_door_init,
+    [LA_OBJ_TYPE_STAR] = _obj_star_init,
 };
 
 la_map_t* map_new()
@@ -64,6 +72,10 @@ la_map_t* map_init_from_template(la_map_template_t* tmpl)
     map_cldr_init(map);
     map_cldr_fill(map, 0);
 
+    map->score = 0;
+    map->score_count = 0;
+
+
     int id;
     for(int i = 0; i < s; i++)
     {
@@ -86,30 +98,60 @@ la_map_t* map_init_from_template(la_map_template_t* tmpl)
                     map_cldr_set(map, x, y);
                     break;
                 case LA_OBJ_TYPE_DOOR:
-                    obj_door_set((la_obj_door_t*)obj, x, y+1);
+                    // obj_door_set((la_obj_door_t*)obj, x, y+1);
                     obj_door_map_sync((la_obj_door_t*)obj, map);
-                    map_cldr_set(map, x, y);
+
+                    // map_cldr_set(map, x, y);
                     break;
                 case LA_OBJ_TYPE_CHRT:
                     map->chrt = (la_obj_character_t*)obj;
                     break;
-
+                case LA_OBJ_TYPE_LEVR:
+                    int arr[] = {10, 1};
+                    obj_levr_add_linked_arr((la_obj_levr_t*)obj, 2, arr);
+                    // obj_levr_add_linked((la_obj_levr_t*)obj, 1);
+                    break;
+                case LA_OBJ_TYPE_STAR:
+                    map->score_count++;
+                    break;
                 default:
                     break;
             }
         }
     }
-
-
+    // for()
+    // map->links = malloc(sizeof(la_link_t) * 1);
+    // map->links[0].lnk_count = tmpl->links[0];
+    // map->links[0].i = malloc(sizeof(int) * map->links[0].lnk_count);
+    // map->links[0].i[0] = tmpl->links[1];
+    // map->links[0].i[0] = tmpl->links[2];
 
     return map;
 }
+
+la_obj_base_t* map_get_obj_by_type(la_map_t* map, int x, int y, int type)
+{
+    la_obj_base_t* obj = MAP_OBJECT(map, x, y);
+    // if( obj == NULL ) return NULL;
+    while(obj != NULL)
+    {
+        if(obj->type == type) return obj;
+        obj = obj->obj;
+    }
+
+    return NULL;
+}
+
 
 int map_is_on_map(la_map_t* map, int x, int y)
 {
     return (0 <= x) && (x < map->size_x) && (0 <= y) && (y < map->size_y);
 }
 
+int map_is_win(la_map_t* map)
+{
+    return (map->score == map->score_count);
+}
 
 // static void map_scan_elements(const char* str, int len, void* user_data)
 // {
@@ -159,9 +201,13 @@ void map_print(la_map_t* map)
         for (size_t j = 0; j < map->size_x; j++) {
             la_obj_base_t* obj = MAP_OBJECT(map, j, i);
             if( obj != NULL)
-                n += sprintf(buffer+n ,"%c", obj->texture);
+            {
+                n += sprintf(buffer + n, "%c", obj->texture);
+            }
             else
-                n += sprintf(buffer+n ,"%c", '_');
+            {
+                n += sprintf(buffer + n, "%c", '_');
+            }
         }
         n += sprintf(buffer + n, "\n");
     }
@@ -174,6 +220,27 @@ void map_print(la_map_t* map)
     fwrite(buffer, sizeof(char), n, stdout);
 }
 
+void map_print_obj_count(la_map_t* map)
+{
+    printf(">> Map obj count: %d, %d\n", map->size_x, map->size_y);
+    int n = 0;
+    char c;
+    char buffer[( map->size_x + 1) * ( map->size_y ) + 1];
+    for (size_t i = 0; i < map->size_y; i++) {
+        for (size_t j = 0; j < map->size_x; j++) {
+            la_obj_base_t* obj = MAP_OBJECT(map, j, i);
+            int k = 0;
+            while(obj!=NULL)
+            {
+                obj = obj->obj;
+                k++;
+            }
+            n += sprintf(buffer+n ,"%d", k);
+        }
+        n += sprintf(buffer + n, "\n");
+    }
+    fwrite(buffer, sizeof(char), n, stdout);
+}
 
 #define LA_MAP_JSON_TEMPLATE "{\"type\":\"map\",\"size_x\":%d,\"size_y\":%d,\"elements\":%s}"
 #define LA_MAP_BEAUTY_JSON_TEMPLATE "{\n\t\"type\":\"map\",\n\t\"size_x\":%d,\n\t\"size_y\":%d,\n\t\"elements\":%s\n}"
@@ -211,6 +278,17 @@ void map_to_json_str(la_map_t* map, char* buffer, int buffer_size)
 //         LA_MAP_TO_JSON(map)
 //     );
 // }
+
+void map_inc_score(la_map_t* map)
+{
+    map->score++;
+}
+
+void map_dec_score(la_map_t* map)
+{
+    map->score--;
+}
+
 
 void map_add_obj(la_map_t* map, la_obj_base_t* obj)
 {
