@@ -3,8 +3,8 @@ build
 debug
 
 prepare.sh
-src/extern
-external_libs.txt
+src/extern/frozen
+#external_libs.txt
 # Prerequisites
 *.d
 

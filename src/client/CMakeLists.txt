@@ -1,3 +1,7 @@
+add_subdirectory(client_nuklear)
+add_subdirectory(client_cmd)
+
+
 target_include_directories(
     laclient PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/"
@@ -9,6 +13,8 @@ target_include_directories(
 target_sources(
     laclient PUBLIC
     client.c
+    "state/clnt_game.c"
+    "state/clnt_menu.c"
     # interaction.c
     # interaction.h
 )

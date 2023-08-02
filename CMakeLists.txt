@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 
 option(USE_STATIC_LIBS "Staticly linked libs" ON)
 option(USE_LIB_FROZEN "Frozen lib for parsing JSON" ON)
+# option(USE_LIB_NUKLEAR "Nuklear lib for client" ON)
 
 # add_compile_options(-Wall -Wextra -pedantic -Werror -Wno-unused-variable)
 
@@ -20,6 +21,10 @@ add_executable(larithm ${SOURCES})
 add_executable(laserver)
 
 add_executable(laclient)
+add_executable(laclient_nuklear)
+add_executable(laclient_nuklear_test)
+add_executable(laclient_ncurses)
+
 # set_target_properties(laclient PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 
